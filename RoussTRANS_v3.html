@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ROUSSTRANS — Vehículos para tu operación comercial</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --bg:#14181D;
+    --bg-2:#0F1216;
+    --panel:#1E242C;
+    --panel-2:#232A33;
+    --border:#2C333C;
+    --text:#EDEEF0;
+    --muted:#8D97A3;
+    --amber:#F2A93B;
+    --amber-dim:#3A2E19;
+    --amber-soft:#C9A467;
+    --green:#5FAE7B;
+    --green-dim:#1B2A22;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.brand,.step-num{ font-family:'Space Grotesk',sans-serif; }
+  a{color:inherit;}
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 24px; }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:40;
+    background:rgba(20,24,29,0.9);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--border);
+  }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; height:66px; }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:600; font-size:17px; }
+  .brand .mark{
+    width:32px;height:32px;border-radius:8px;background:var(--amber-dim);
+    display:flex;align-items:center;justify-content:center;border:1px solid #4a3a1f;
+  }
+  .navlinks{ display:flex; gap:28px; font-size:14px; color:var(--muted); }
+  .navlinks a{ text-decoration:none; transition:color .15s; }
+  .navlinks a:hover{ color:var(--text); }
+  .btn{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:13.5px;
+    border-radius:8px; border:none; cursor:pointer;
+    padding:11px 18px;
+    transition:filter .15s ease, transform .1s ease;
+  }
+  .btn:active{ transform:scale(.98); }
+  .btn-primary{ background:var(--amber); color:#20160a; }
+  .btn-primary:hover{ filter:brightness(1.08); }
+  .btn-ghost{ background:transparent; color:var(--text); border:1px solid var(--border); }
+  .btn-ghost:hover{ border-color:var(--amber-soft); }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding:76px 0 60px; }
+  .hero .wrap{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px; align-items:center; }
+  .eyebrow{ color:var(--amber); font-size:13px; font-weight:600; margin-bottom:14px; }
+  .hero h1{
+    font-size:40px; line-height:1.15; font-weight:700; margin:0 0 18px;
+    letter-spacing:-0.01em;
+  }
+  .hero p.lead{ color:var(--muted); font-size:16px; line-height:1.6; max-width:46ch; margin:0 0 28px; }
+  .hero .cta-row{ display:flex; gap:12px; flex-wrap:wrap; }
+  .hero-art{ position:relative; }
+  .hero-art svg{ width:100%; height:auto; }
+
+  /* ---------- STRIP ---------- */
+  .strip{
+    border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+    background:var(--bg-2);
+  }
+  .strip .wrap{ display:flex; justify-content:space-between; padding:22px 24px; flex-wrap:wrap; gap:16px; }
+  .stat{ min-width:130px; }
+  .stat .num{ font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:700; color:var(--amber); }
+  .stat .lbl{ font-size:12.5px; color:var(--muted); margin-top:2px; }
+
+  /* ---------- SECTIONS ---------- */
+  section{ padding:64px 0; }
+  .section-head{ margin-bottom:32px; max-width:56ch; }
+  .section-head .kicker{ color:var(--amber); font-size:12.5px; font-weight:600; margin-bottom:8px; }
+  .section-head h2{ font-size:27px; margin:0 0 10px; font-weight:600; }
+  .section-head p{ color:var(--muted); font-size:14.5px; line-height:1.6; margin:0; }
+
+  .vehicle-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; }
+  .vcard{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+    padding:20px 16px; text-align:left;
+  }
+  .vcard .vicon{ width:34px;height:34px; margin-bottom:14px; }
+  .vcard h3{ font-size:14.5px; margin:0 0 6px; font-weight:600; }
+  .vcard p{ font-size:12.5px; color:var(--muted); line-height:1.5; margin:0; }
+
+  .steps{ counter-reset:step; display:flex; flex-direction:column; gap:0; }
+  .step-item{
+    display:flex; gap:20px; padding:22px 0;
+    border-top:1px solid var(--border);
+  }
+  .step-item:last-child{ border-bottom:1px solid var(--border); }
+  .step-num{
+    flex:0 0 auto; width:34px; height:34px; border-radius:50%;
+    border:1px solid var(--amber); color:var(--amber);
+    display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:600;
+  }
+  .step-body h3{ font-size:15px; margin:0 0 5px; font-weight:600; }
+  .step-body p{ font-size:13.5px; color:var(--muted); margin:0; line-height:1.55; max-width:60ch; }
+
+  .cta-band{
+    background:var(--panel); border:1px solid var(--border); border-radius:14px;
+    padding:40px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
+  }
+  .cta-band h2{ font-size:22px; margin:0 0 6px; font-weight:600; }
+  .cta-band p{ color:var(--muted); font-size:14px; margin:0; }
+
+  footer{ border-top:1px solid var(--border); padding:32px 0; }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; font-size:13px; color:var(--muted); }
+
+  @media (max-width:860px){
+    .hero .wrap{ grid-template-columns:1fr; }
+    .hero-art{ order:-1; }
+    .vehicle-grid{ grid-template-columns:repeat(2,1fr); }
+    .navlinks{ display:none; }
+  }
+
+  /* =====================================================================
+     MODAL — asistente virtual guiado
+     ===================================================================== */
+  .modal-backdrop{
+    position:fixed; inset:0; background:rgba(8,10,12,0.72);
+    display:none; align-items:center; justify-content:center;
+    z-index:100; padding:20px;
+  }
+  .modal-backdrop.open{ display:flex; }
+
+  .console{
+    width:100%; max-width:460px; height:min(680px, 94vh);
+    background:var(--panel); border:1px solid var(--border); border-radius:12px;
+    display:flex; flex-direction:column; overflow:hidden;
+    box-shadow:0 40px 80px -20px rgba(0,0,0,0.65);
+  }
+  .c-header{
+    padding:15px 16px; display:flex; align-items:center; justify-content:space-between;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg,var(--panel-2),var(--panel));
+  }
+  .c-header-id{ display:flex; align-items:center; gap:10px; }
+  .c-header .fleet-mark{ width:32px;height:32px;border-radius:8px;background:var(--amber-dim);display:flex;align-items:center;justify-content:center;border:1px solid #4a3a1f; }
+  .c-header .fleet-mark svg{ width:17px;height:17px; }
+  .c-header .name{ font-size:14.5px; font-weight:600; line-height:1.1; }
+  .c-header .role{ font-size:11.5px; color:var(--muted); margin-top:2px; }
+  .close-x{
+    background:transparent; border:none; color:var(--muted); cursor:pointer;
+    font-size:20px; line-height:1; padding:4px 6px; border-radius:6px;
+  }
+  .close-x:hover{ color:var(--text); background:var(--panel-2); }
+
+  /* progress */
+  .progress{ display:flex; padding:12px 16px 10px; gap:6px; border-bottom:1px solid var(--border); background:var(--panel); }
+  .progress .seg{ flex:1; height:3px; border-radius:2px; background:var(--border); position:relative; }
+  .progress .seg.done{ background:var(--amber); }
+  .progress .seg.current{ background:var(--amber-soft); }
+  .progress-labels{ display:flex; justify-content:space-between; padding:0 16px 10px; font-size:10px; color:var(--muted); border-bottom:1px solid var(--border); }
+
+  .thread{ flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:12px; }
+  .thread::-webkit-scrollbar{ width:6px; }
+  .thread::-webkit-scrollbar-thumb{ background:var(--border); border-radius:3px; }
+
+  .row{ display:flex; }
+  .row.bot{ justify-content:flex-start; }
+  .row.user{ justify-content:flex-end; }
+  .bubble{ max-width:84%; padding:10px 13px; font-size:13.5px; line-height:1.5; }
+  .bubble p{ margin:0 0 5px; white-space:pre-line; }
+  .bubble p:last-child{ margin-bottom:0; }
+  .bubble.bot{ background:var(--panel-2); border:1px solid var(--border); border-left:2px solid var(--amber); border-radius:3px 10px 10px 10px; }
+  .bubble.user{ background:#2A2117; border:1px solid #4a3a1f; color:#F6E4C4; border-radius:10px 3px 10px 10px; }
+  .bubble .label{ display:block; font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:600; color:var(--muted); margin-bottom:4px; }
+  .bubble.user .label{ color:var(--amber-soft); text-align:right; }
+
+  .typing{ display:flex; gap:4px; padding:4px 2px; }
+  .typing span{ width:5px;height:5px;border-radius:50%; background:var(--muted); animation:blink 1.2s infinite ease-in-out; }
+  .typing span:nth-child(2){ animation-delay:.2s; }
+  .typing span:nth-child(3){ animation-delay:.4s; }
+  @keyframes blink{ 0%,80%,100%{opacity:.25;} 40%{opacity:1;} }
+
+  /* options-only area: this is what keeps the flow inside trained answers */
+  .options-area{
+    display:none; flex-wrap:wrap; gap:8px; padding:4px 16px 14px;
+    border-top:1px solid var(--border); background:var(--panel-2);
+  }
+  .options-area.show{ display:flex; }
+  .opt-btn{
+    flex:0 0 auto; padding:9px 14px; border-radius:8px;
+    border:1px solid var(--border); background:var(--panel);
+    color:var(--text); font-size:13px; font-family:'Inter',sans-serif; font-weight:500;
+    cursor:pointer; transition:border-color .15s, background .15s;
+  }
+  .opt-btn:hover{ border-color:var(--amber); background:#242018; }
+  .opt-btn.wide{ flex:1 1 100%; text-align:left; }
+
+  .composer{ display:none; gap:8px; padding:12px 14px; border-top:1px solid var(--border); background:var(--panel-2); }
+  .composer.show{ display:flex; }
+  .composer input{
+    flex:1; background:var(--bg); border:1px solid var(--border); color:var(--text);
+    border-radius:8px; padding:11px 12px; font-size:13.5px; font-family:'Inter',sans-serif; outline:none;
+  }
+  .composer input:focus{ border-color:var(--amber); }
+  .composer input::placeholder{ color:#5b6470; }
+  .composer button{
+    background:var(--amber); color:#20160a; border:none; border-radius:8px; padding:0 16px;
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:13px; cursor:pointer;
+  }
+  .composer button:hover{ filter:brightness(1.08); }
+
+  .hint-locked{
+    font-size:11px; color:var(--muted); text-align:center; padding:8px 16px;
+    border-top:1px solid var(--border); background:var(--panel-2);
+  }
+
+  /* ---------- avatar flotante ---------- */
+  .floating-avatar{
+    position:fixed; right:22px; bottom:22px; z-index:60;
+    display:flex; align-items:center; gap:10px; cursor:pointer;
+  }
+  .floating-avatar .bubble-tip{
+    background:var(--panel); border:1px solid var(--border);
+    padding:8px 13px; border-radius:9px; font-size:12.5px; color:var(--text);
+    opacity:0; transform:translateY(4px) translateX(4px);
+    transition:opacity .18s ease, transform .18s ease;
+    white-space:nowrap; box-shadow:0 8px 20px -8px rgba(0,0,0,.5);
+  }
+  .floating-avatar:hover .bubble-tip{ opacity:1; transform:translateY(0) translateX(0); }
+  .avatar-circle{
+    width:56px; height:56px; border-radius:50%; background:var(--amber);
+    display:flex; align-items:center; justify-content:center; position:relative;
+    box-shadow:0 12px 26px -8px rgba(0,0,0,.6);
+  }
+  .avatar-circle svg{ width:26px; height:26px; }
+  .pulse-ring{
+    position:absolute; inset:-6px; border-radius:50%;
+    border:2px solid var(--amber); opacity:.55;
+    animation:pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse{ 0%{ transform:scale(.82); opacity:.55; } 100%{ transform:scale(1.35); opacity:0; } }
+
+  @media (max-width:860px){
+    .floating-avatar .bubble-tip{ display:none; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .typing span{ animation:none; opacity:1; }
+    .pulse-ring{ animation:none; opacity:0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================= NAV ============================= -->
+<nav>
+  <div class="wrap">
+    <div class="brand">
+      <div class="mark">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#F2A93B" stroke-width="1.8">
+          <path d="M3 13l1.5-4.5A2 2 0 0 1 6.4 7h11.2a2 2 0 0 1 1.9 1.5L21 13" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="2.5" y="13" width="19" height="5" rx="1.4" stroke-linejoin="round"/>
+          <circle cx="7" cy="18.5" r="1.6"/><circle cx="17" cy="18.5" r="1.6"/>
+        </svg>
+      </div>
+      ROUSSTRANS
+    </div>
+    <div class="navlinks">
+      <a href="#servicios">Vehículos</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <button class="btn btn-primary" onclick="abrirChat()">Solicitar vehículo</button>
+  </div>
+</nav>
+
+<!-- ============================= HERO ============================= -->
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Servicio de flota para empresas comercializadoras</div>
+      <h1>Vehículos para tu operación,<br>sin complicarte con la flota.</h1>
+      <p class="lead">Renta o leasing de camionetas, furgones y vehículos refrigerados para tu distribución urbana o regional, con mantenimiento y seguro incluidos.</p>
+      <div class="cta-row">
+        <button class="btn btn-primary" onclick="abrirChat()">Solicitar vehículo</button>
+        <a href="#como-funciona" class="btn btn-ghost" style="display:inline-flex;align-items:center;">Ver cómo funciona</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg viewBox="0 0 380 260" fill="none">
+        <path d="M20 190 C 90 190, 90 90, 160 90 S 230 190, 300 190 S 360 130, 360 130" stroke="#2C333C" stroke-width="2" stroke-dasharray="4 6"/>
+        <circle cx="20" cy="190" r="4" fill="#5FAE7B"/>
+        <circle cx="160" cy="90" r="4" fill="#F2A93B"/>
+        <circle cx="360" cy="130" r="4" fill="#F2A93B"/>
+        <g transform="translate(60,150)">
+          <rect x="0" y="0" width="70" height="34" rx="4" fill="#1E242C" stroke="#2C333C"/>
+          <path d="M70 10 h18 l10 12 v12 h-28 z" fill="#232A33" stroke="#2C333C"/>
+          <circle cx="20" cy="38" r="7" fill="#14181D" stroke="#F2A93B" stroke-width="2"/>
+          <circle cx="80" cy="38" r="7" fill="#14181D" stroke="#F2A93B" stroke-width="2"/>
+        </g>
+        <g transform="translate(190,60)">
+          <rect x="0" y="0" width="60" height="30" rx="4" fill="#1E242C" stroke="#2C333C"/>
+          <rect x="60" y="6" width="24" height="24" rx="3" fill="#232A33" stroke="#2C333C"/>
+          <text x="6" y="20" font-family="Space Grotesk" font-size="9" fill="#8D97A3">*</text>
+          <circle cx="16" cy="34" r="6" fill="#14181D" stroke="#5FAE7B" stroke-width="2"/>
+          <circle cx="68" cy="34" r="6" fill="#14181D" stroke="#5FAE7B" stroke-width="2"/>
+        </g>
+        <g transform="translate(280,95)">
+          <rect x="0" y="0" width="58" height="30" rx="4" fill="#1E242C" stroke="#2C333C"/>
+          <rect x="58" y="8" width="20" height="22" rx="3" fill="#232A33" stroke="#2C333C"/>
+          <circle cx="15" cy="34" r="6" fill="#14181D" stroke="#F2A93B" stroke-width="2"/>
+          <circle cx="65" cy="34" r="6" fill="#14181D" stroke="#F2A93B" stroke-width="2"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- ============================= STRIP ============================= -->
+<div class="strip">
+  <div class="wrap">
+    <div class="stat"><div class="num">6–36</div><div class="lbl">meses de contrato</div></div>
+    <div class="stat"><div class="num">Urbano</div><div class="lbl">y rutas regionales</div></div>
+    <div class="stat"><div class="num">100%</div><div class="lbl">mantenimiento incluido</div></div>
+    <div class="stat"><div class="num">2–4 días</div><div class="lbl">para aprobar tu solicitud</div></div>
+  </div>
+</div>
+
+<!-- ============================= VEHÍCULOS ============================= -->
+<section id="servicios">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Tipos de vehículo</div>
+      <h2>El vehículo correcto para cada entrega</h2>
+      <p>Elige entre nuestras categorías según el tipo de mercancía y la ruta que maneja tu empresa.</p>
+    </div>
+    <div class="vehicle-grid">
+      <div class="vcard">
+        <svg class="vicon" viewBox="0 0 24 24" fill="none" stroke="#F2A93B" stroke-width="1.6"><path d="M3 13l1.5-4.5A2 2 0 0 1 6.4 7h11.2a2 2 0 0 1 1.9 1.5L21 13" stroke-linecap="round"/><rect x="2.5" y="13" width="19" height="5" rx="1.2"/><circle cx="7" cy="18.5" r="1.5"/><circle cx="17" cy="18.5" r="1.5"/></svg>
+        <h3>Urbano</h3><p>Reparto dentro de la ciudad, ágil para múltiples paradas.</p>
+      </div>
+      <div class="vcard">
+        <svg class="vicon" viewBox="0 0 24 24" fill="none" stroke="#F2A93B" stroke-width="1.6"><path d="M2 12h20M12 2v20" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg>
+        <h3>Regional</h3><p>Trayectos entre ciudades, pensados para recorridos largos.</p>
+      </div>
+      <div class="vcard">
+        <svg class="vicon" viewBox="0 0 24 24" fill="none" stroke="#F2A93B" stroke-width="1.6"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1" stroke-linecap="round"/></svg>
+        <h3>Refrigerado</h3><p>Cadena de frío para productos perecederos.</p>
+      </div>
+      <div class="vcard">
+        <svg class="vicon" viewBox="0 0 24 24" fill="none" stroke="#F2A93B" stroke-width="1.6"><rect x="3" y="6" width="18" height="12" rx="1"/><path d="M3 10h18M7 6v12M11 6v12M15 6v12M19 6v12" stroke-linecap="round"/></svg>
+        <h3>Estacas</h3><p>Carga general, materiales y mercancía de gran volumen.</p>
+      </div>
+      <div class="vcard">
+        <svg class="vicon" viewBox="0 0 24 24" fill="none" stroke="#F2A93B" stroke-width="1.6"><rect x="3" y="7" width="18" height="11" rx="2"/><path d="M3 12h18" stroke-linecap="round"/></svg>
+        <h3>Furgón</h3><p>Carga cerrada y protegida, ideal para mercancía delicada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= CÓMO FUNCIONA ============================= -->
+<section id="como-funciona">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Proceso</div>
+      <h2>Cómo funciona tu solicitud</h2>
+      <p>El asistente virtual te guía paso a paso, sin formularios largos ni llamadas necesarias para empezar.</p>
+    </div>
+    <div class="steps">
+      <div class="step-item"><div class="step-num">1</div><div class="step-body"><h3>Elige el vehículo</h3><p>Cobertura urbana o regional, y el tipo de carrocería: refrigerado, estacas o furgón.</p></div></div>
+      <div class="step-item"><div class="step-num">2</div><div class="step-body"><h3>Cotiza o contrata directo</h3><p>Puedes pedir el precio antes de decidir, o iniciar el trámite de contratación de una vez.</p></div></div>
+      <div class="step-item"><div class="step-num">3</div><div class="step-body"><h3>Confirma tus datos</h3><p>El asistente solicita los datos de tu empresa para dejar la solicitud lista.</p></div></div>
+      <div class="step-item"><div class="step-num">4</div><div class="step-body"><h3>Un asesor te contacta</h3><p>Recibes la cotización o la confirmación del contrato según lo que hayas elegido.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= CTA BAND ============================= -->
+<section>
+  <div class="wrap">
+    <div class="cta-band">
+      <div>
+        <h2>¿Listo para pedir tu vehículo?</h2>
+        <p>El asistente te acompaña en todo el proceso, en menos de 2 minutos.</p>
+      </div>
+      <button class="btn btn-primary" onclick="abrirChat()">Solicitar vehículo</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= FOOTER ============================= -->
+<footer id="contacto">
+  <div class="wrap">
+    <div>ROUSSTRANS · Servicio de flota para empresas comercializadoras</div>
+    <div>contacto@rousstrans.com · +57 300 000 0000</div>
+  </div>
+</footer>
+
+<!-- ============================= AVATAR FLOTANTE ============================= -->
+<div class="floating-avatar" id="floatingAvatar" onclick="abrirChat()">
+  <div class="bubble-tip">¿Necesitas un vehículo? Habla conmigo 💬</div>
+  <div class="avatar-circle">
+    <div class="pulse-ring"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="#20160a" stroke-width="1.8">
+      <circle cx="12" cy="8.5" r="4"/>
+      <path d="M4.5 20c0-3.5 3.4-6 7.5-6s7.5 2.5 7.5 6" stroke-linecap="round"/>
+      <path d="M9 8.2c0-1.3 1.2-2.2 3-2.2s3 .9 3 2.2" stroke-linecap="round"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ============================= MODAL: ASISTENTE ============================= -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="cerrarSiEsFondo(event)">
+  <div class="console">
+    <div class="c-header">
+      <div class="c-header-id">
+        <div class="fleet-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F2A93B" stroke-width="1.8"><path d="M3 13l1.5-4.5A2 2 0 0 1 6.4 7h11.2a2 2 0 0 1 1.9 1.5L21 13" stroke-linecap="round" stroke-linejoin="round"/><rect x="2.5" y="13" width="19" height="5" rx="1.4"/><circle cx="7" cy="18.5" r="1.6"/><circle cx="17" cy="18.5" r="1.6"/></svg>
+        </div>
+        <div>
+          <div class="name">ROUSSTRANS</div>
+          <div class="role">Asistente de solicitud de vehículo</div>
+        </div>
+      </div>
+      <button class="close-x" onclick="cerrarChat()">✕</button>
+    </div>
+
+    <div class="progress" id="progressBar"></div>
+    <div class="progress-labels">
+      <span>Vehículo</span><span>Carrocería</span><span>Modalidad</span><span>Datos</span><span>Listo</span>
+    </div>
+
+    <div class="thread" id="thread"></div>
+
+    <div class="options-area" id="optionsArea"></div>
+
+    <div class="composer" id="composer">
+      <input id="input" type="text" placeholder="Escribe aquí…" autocomplete="off" />
+      <button onclick="enviarTexto()">Enviar</button>
+    </div>
+
+    <div class="hint-locked" id="hintLocked">Selecciona una opción para continuar</div>
+  </div>
+</div>
+
+<script>
+/* =========================================================================
+   CONFIGURACIÓN — edita según los datos reales de tu empresa
+   ========================================================================= */
+const CONFIG = {
+  empresa: "ROUSSTRANS",
+  contacto: { telefono: "+57 300 000 0000", correo: "contacto@rousstrans.com" },
+  // Pega aquí la URL de tu aplicación web de Google Apps Script (ver apps-script-solicitudes.gs)
+  googleSheetWebhookUrl: "https://script.google.com/macros/s/AKfycbzKmRascvoOENtGNIEA8-hGHPlH0Ywfz3XTRU_IaeyBvaXNStNidapUjQ-N3nSs0Euf/exec"
+};
+
+/* =========================================================================
+   FLUJO GUIADO DEL ASISTENTE
+   Cada paso es de tipo "options" (solo botones, no admite texto libre) o
+   "text" (campo de datos puntual). Así se evita que el asistente reciba
+   mensajes fuera de lo que sabe responder.
+   ========================================================================= */
+const STEPS = [
+  { id:"cobertura", stage:0, type:"options",
+    prompt:"Para comenzar, cuéntame: ¿el servicio es para rutas urbanas o regionales?",
+    options:[{label:"Urbano", value:"Urbano"},{label:"Regional", value:"Regional"}] },
+
+  { id:"carroceria", stage:1, type:"options",
+    intro:"¡Buena elección! 🚛",
+    prompt:"¿Qué tipo de vehículo necesitas?",
+    options:[{label:"Refrigerado", value:"Refrigerado"},{label:"Estacas", value:"Estacas"},{label:"Furgón", value:"Furgón"},{label:"Tractomula", value:"Tractomula"}] },
+
+  { id:"peso", stage:1, type:"options",
+    prompt:"¿Cuál es el COLCO que necesitas transportar?",
+    options:[{label:"3", value:"3"},{label:"5", value:"5"},{label:"10", value:"10"},{label:"TM", value:"TM"}] },
+
+  { id:"cantidad", stage:1, type:"options",
+    prompt:"Anotado. ¿Cuántos vehículos necesitas?",
+    options:[{label:"1 vehículo", value:"1"},{label:"2 a 5", value:"2 a 5"},{label:"Más de 5", value:"Más de 5"}] },
+
+  { id:"modalidad", stage:2, type:"options",
+    intro:"Ya casi tengo claro lo que necesitas 👍",
+    prompt:"¿Cómo prefieres continuar?",
+    options:[
+      {label:"Contratar sin ver precio", value:"contratar"},
+      {label:"Solicitar cotización de precio", value:"cotizar"}
+    ] },
+
+  { id:"empresa", stage:3, type:"text", field:"empresa",
+    intro:"¡Perfecto! 🙌 Ahora te voy a pedir unos datos rápidos para dejar tu solicitud lista.",
+    prompt:"¿Cuál es el nombre de tu empresa?",
+    placeholder:"Nombre de la empresa" },
+
+  { id:"nombreContacto", stage:3, type:"text", field:"nombreContacto",
+    prompt:"Gracias 😊 ¿Cuál es tu nombre, como persona de contacto?",
+    placeholder:"Nombre completo" },
+
+  { id:"telefono", stage:3, type:"text", field:"telefono",
+    prompt:"¿A qué número de teléfono te podemos contactar?",
+    placeholder:"Ej: 3000000000",
+    validate:v=> v.replace(/\D/g,"").length>=7,
+    error:"Uy, ese número no parece válido 🤔 ¿Puedes escribirlo de nuevo?" },
+
+  { id:"correo", stage:3, type:"text", field:"correo",
+    prompt:"Ya vamos por buen camino. ¿Cuál es tu correo electrónico?",
+    placeholder:"correo@empresa.com",
+    validate:v=> /\S+@\S+\.\S+/.test(v),
+    error:"Ese correo no parece válido 🤔 ¿Puedes escribirlo de nuevo?" },
+
+  { id:"ciudad", stage:3, type:"text", field:"ciudad",
+    prompt:"¿En qué ciudad operará el vehículo?",
+    placeholder:"Ciudad" },
+
+  { id:"fecha", stage:3, type:"text", field:"fecha",
+    intro:"Última pregunta, lo prometo 😉",
+    prompt:"¿Para qué fecha aproximada lo necesitas?",
+    placeholder:"Ej: primera semana de octubre" },
+
+  { id:"resumen", stage:4, type:"summary" },
+  { id:"final", stage:4, type:"final" }
+];
+
+const STAGE_COUNT = 5;
+let stepIndex = 0;
+let data = {};
+
+/* ---------- elementos ---------- */
+const modalBackdrop = document.getElementById("modalBackdrop");
+const thread = document.getElementById("thread");
+const optionsArea = document.getElementById("optionsArea");
+const composer = document.getElementById("composer");
+const input = document.getElementById("input");
+const hintLocked = document.getElementById("hintLocked");
+const progressBar = document.getElementById("progressBar");
+
+/* ---------- helpers de UI ---------- */
+function addMessage(texto, from){
+  const row = document.createElement("div");
+  row.className = "row " + from;
+  const bubble = document.createElement("div");
+  bubble.className = "bubble " + from;
+  const label = document.createElement("span");
+  label.className = "label";
+  label.textContent = from === "bot" ? CONFIG.empresa : "Tú";
+  const p = document.createElement("p");
+  p.textContent = texto;
+  bubble.appendChild(label);
+  bubble.appendChild(p);
+  row.appendChild(bubble);
+  thread.appendChild(row);
+  thread.scrollTop = thread.scrollHeight;
+}
+
+function showTyping(cb){
+  const row = document.createElement("div");
+  row.className = "row bot";
+  row.id = "typing-row";
+  const bubble = document.createElement("div");
+  bubble.className = "bubble bot";
+  bubble.innerHTML = '<span class="label">'+CONFIG.empresa+'</span><div class="typing"><span></span><span></span><span></span></div>';
+  row.appendChild(bubble);
+  thread.appendChild(row);
+  thread.scrollTop = thread.scrollHeight;
+  setTimeout(()=>{
+    const r = document.getElementById("typing-row");
+    if(r) r.remove();
+    cb();
+  }, 420 + Math.random()*380);
+}
+
+function renderProgress(stage){
+  progressBar.innerHTML = "";
+  for(let i=0;i<STAGE_COUNT;i++){
+    const seg = document.createElement("div");
+    seg.className = "seg" + (i<stage?" done":"") + (i===stage?" current":"");
+    progressBar.appendChild(seg);
+  }
+}
+
+function clearOptions(){ optionsArea.innerHTML=""; optionsArea.classList.remove("show"); }
+
+/* Muestra una lista de mensajes en secuencia (con la animación de "escribiendo"
+   entre cada uno) y al final ejecuta cont(). Así se pueden anteponer frases
+   amables (intro) antes de la pregunta principal de cada paso. */
+function decirSecuencia(mensajes, cont){
+  if(mensajes.length === 0){ cont(); return; }
+  showTyping(()=>{
+    addMessage(mensajes[0], "bot");
+    decirSecuencia(mensajes.slice(1), cont);
+  });
+}
+
+/* ---------- motor del flujo ---------- */
+function irAPaso(idx){
+  stepIndex = idx;
+  const step = STEPS[idx];
+  renderProgress(step.stage);
+  clearOptions();
+  composer.classList.remove("show");
+  hintLocked.style.display = "none";
+
+  if(step.type === "options"){
+    const mensajes = step.intro ? [step.intro, step.prompt] : [step.prompt];
+    decirSecuencia(mensajes, ()=>{
+      step.options.forEach(opt=>{
+        const b = document.createElement("button");
+        b.className = "opt-btn";
+        b.textContent = opt.label;
+        b.onclick = ()=> elegirOpcion(step, opt);
+        optionsArea.appendChild(b);
+      });
+      optionsArea.classList.add("show");
+      hintLocked.style.display = "block";
+    });
+  }
+
+  if(step.type === "text"){
+    const mensajes = step.intro ? [step.intro, step.prompt] : [step.prompt];
+    decirSecuencia(mensajes, ()=>{
+      composer.classList.add("show");
+      input.placeholder = step.placeholder || "Escribe aquí…";
+      input.value = "";
+      input.focus();
+    });
+  }
+
+  if(step.type === "summary"){
+    showTyping(()=>{
+      const resumen =
+`¡Excelente! Ya tengo todo lo que necesito 🎉
+
+Este es el resumen de tu solicitud:
+
+• Cobertura: ${data.cobertura}
+• Vehículo: ${data.carroceria}
+• COLCO: ${data.peso}
+• Cantidad: ${data.cantidad}
+• Modalidad: ${data.modalidad === "contratar" ? "Contratar sin ver precio" : "Solicitar cotización"}
+• Empresa: ${data.empresa}
+• Contacto: ${data.nombreContacto}
+• Teléfono: ${data.telefono}
+• Correo: ${data.correo}
+• Ciudad: ${data.ciudad}
+• Fecha requerida: ${data.fecha}
+
+¿Confirmamos la solicitud?`;
+      addMessage(resumen, "bot");
+      const b1 = document.createElement("button");
+      b1.className = "opt-btn wide";
+      b1.textContent = "Confirmar solicitud";
+      b1.onclick = ()=>{ enviarADrive(data); irAPaso(stepIndex+1); };
+      const b2 = document.createElement("button");
+      b2.className = "opt-btn";
+      b2.textContent = "Empezar de nuevo";
+      b2.onclick = reiniciar;
+      optionsArea.appendChild(b1);
+      optionsArea.appendChild(b2);
+      optionsArea.classList.add("show");
+      hintLocked.style.display = "block";
+    });
+  }
+
+  if(step.type === "final"){
+    showTyping(()=>{
+      const mensaje = data.modalidad === "contratar"
+        ? `¡Listo, ${data.nombreContacto}! 🎉 Tu solicitud de contratación quedó registrada. Un asesor de ROUSSTRANS te llamará al ${data.telefono} para confirmar el vehículo y formalizar el contrato.`
+        : `¡Listo, ${data.nombreContacto}! 📩 Tu solicitud de cotización quedó registrada. Te enviaremos el precio desglosado a ${data.correo} y por WhatsApp al ${data.telefono}.`;
+      addMessage(mensaje, "bot");
+      showTyping(()=>{
+        addMessage("Gracias por confiar en ROUSSTRANS 🚛 Si necesitas algo más, aquí estaré.", "bot");
+        const b = document.createElement("button");
+        b.className = "opt-btn wide";
+        b.textContent = "Hacer una nueva solicitud";
+        b.onclick = reiniciar;
+        optionsArea.appendChild(b);
+        optionsArea.classList.add("show");
+        hintLocked.style.display = "none";
+      });
+    });
+  }
+}
+
+function elegirOpcion(step, opt){
+  addMessage(opt.label, "user");
+  data[step.id] = opt.value;
+  clearOptions();
+  hintLocked.style.display = "none";
+  irAPaso(stepIndex+1);
+}
+
+/* Envía la solicitud confirmada a la hoja de cálculo de Drive, a través de
+   la aplicación web de Google Apps Script (ver apps-script-solicitudes.gs).
+   Si no se ha configurado la URL todavía, no hace nada. */
+function enviarADrive(datos){
+  const url = CONFIG.googleSheetWebhookUrl;
+  if(!url || url.includes("PEGA_AQUI")) return;
+
+  fetch(url, { method: "POST", body: JSON.stringify(datos) })
+    .then(r => r.text())
+    .then(t => console.log("ROUSSTRANS · respuesta de Google Sheets:", t))
+    .catch(()=>{
+      // Si el navegador bloquea la lectura de la respuesta (CORS), se reintenta
+      // en modo no-cors: el dato igual se envía, solo no se puede confirmar aquí.
+      fetch(url, { method: "POST", mode: "no-cors", body: JSON.stringify(datos) })
+        .catch(()=>{ /* si también falla, no interrumpe la conversación */ });
+    });
+}
+
+function enviarTexto(){
+  const step = STEPS[stepIndex];
+  if(step.type !== "text") return;
+  const valor = input.value.trim();
+  if(!valor) return;
+  if(step.validate && !step.validate(valor)){
+    addMessage(valor, "user");
+    input.value = "";
+    showTyping(()=> addMessage(step.error, "bot"));
+    return;
+  }
+  addMessage(valor, "user");
+  data[step.field] = valor;
+  input.value = "";
+  composer.classList.remove("show");
+  irAPaso(stepIndex+1);
+}
+input.addEventListener("keydown", e=>{ if(e.key === "Enter") enviarTexto(); });
+
+function reiniciar(){
+  data = {};
+  thread.innerHTML = "";
+  saludoInicial(()=> irAPaso(0));
+}
+
+/* ---------- saludo de bienvenida ---------- */
+function saludoInicial(cont){
+  decirSecuencia([
+    "¡Hola! 👋 Soy el asistente virtual de ROUSSTRANS.",
+    "Estoy aquí para ayudarte a solicitar tu vehículo en solo un par de minutos. ¡Empecemos! 🚚"
+  ], cont);
+}
+
+/* ---------- apertura / cierre del modal ---------- */
+const floatingAvatar = document.getElementById("floatingAvatar");
+
+function abrirChat(){
+  modalBackdrop.classList.add("open");
+  floatingAvatar.style.display = "none";
+  document.body.style.overflow = "hidden";
+  if(thread.children.length === 0){ saludoInicial(()=> irAPaso(0)); }
+}
+function cerrarChat(){
+  modalBackdrop.classList.remove("open");
+  floatingAvatar.style.display = "flex";
+  document.body.style.overflow = "";
+}
+function cerrarSiEsFondo(e){ if(e.target === modalBackdrop) cerrarChat(); }
+</script>
+
+</body>
+</html>
